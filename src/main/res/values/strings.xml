@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">BudgetHelper</string>
+
+    //Menu
+    <string name="home">Home</string>
+    <string name="spending">Add Spendings</string>
+    <string name="iou">Add IOU/UO</string>
+    <string name="updateBudget">Update Budget</string>
+    <string name="calendar">Calendar</string>
+    <string name="account">Account</string>
+    <string name="logout">Logout</string>
+
+    //Budget
+    <string name="currentbudget">$36.27</string>
+    <string name="totalbudget">$50.00</string>
+    <string name="startdate">Start Date</string>
+
+    //Spending
+    <string name="amount">Amount</string>
+    <string name="date">Date</string>
+    <string name="store">Store</string>
+    <string name="save">Save</string>
+
 </resources>
