@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home"
+        android:title="@string/home"
+        android:orderInCategory="100"/>
+
+    <item
+        android:id="@+id/spending"
+        android:title="@string/spending"
+        android:orderInCategory="100"/>
+
+    <item
+        android:id="@+id/iouStartPage"
+        android:title="@string/iou"
+        android:orderInCategory="100"/>
+    <item
+        android:id="@+id/updatebudget"
+        android:title="@string/updateBudget"
+        android:orderInCategory="100"/>
+
+    <item
+        android:id="@+id/calendar"
+        android:title="@string/calendar"
+        android:orderInCategory="100"/>
+
+    <item
+        android:id="@+id/account"
+        android:title="@string/account"
+        android:orderInCategory="100"/>
+
+    <item
+        android:id="@+id/logout"
+        android:title="@string/logout"
+        android:orderInCategory="100"/>
+
+</menu>
