@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 public class HomePage extends AppCompatActivity {
-
+    DataBaseHelper myDB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
