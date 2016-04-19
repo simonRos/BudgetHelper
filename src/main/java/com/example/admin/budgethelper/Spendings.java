@@ -1,45 +1,43 @@
-package com.example.admin.budgethelper;
+package com.exampleandroid.testthing;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+public class Spendings {
+    //vars
+    private String user;
+    private int ID;
+    private double amount;
+    private String date;
 
-public class Spendings extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_spendings);
+    //constructor
+    public Spendings(String user, int ID, double amount, String date){
+        this.user = user;
+        this.ID = ID;
+        this.amount = amount;
+        this.date = date;
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    //setters
+    public void setUser(String u){
+        user = u;
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        int id = item.getItemId();
-
-        switch (id){
-            case R.id.home:
-                Intent intent1 = new Intent(getApplicationContext(),HomePage.class);
-                startActivity(intent1);
-                return true;
-            case R.id.spending:
-                Intent intent2 = new Intent(getApplicationContext(),Spendings.class);
-                startActivity(intent2);
-                return true;
-            case R.id.updatebudget:
-                Intent intent3 = new Intent(getApplicationContext(),Budget.class);
-                startActivity(intent3);
-                return true;
-
-            default:
-                return true;
-        }
+    public void setID(int id){
+        ID = id;
+    }
+    public void setAmount(double amount){
+        this.amount = amount;
+    }
+    public void setDate(String date){
+        this.date = date;
+    }
+    //getters
+    public String getUser(){
+        return user;
+    }
+    public String getDate(){
+        return date;
+    }
+    public double getAmount(){
+        return amount;
+    }
+    public int getID(){
+        return ID;
     }
 }
