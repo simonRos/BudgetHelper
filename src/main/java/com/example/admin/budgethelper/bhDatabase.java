@@ -95,6 +95,21 @@ public class bhDatabase extends SQLiteOpenHelper {
         contentValue.put(reminderIOU, reminder.getID());
         contentValue.put(message, reminder.getMessage());
         contentValue.put(remDate, reminder.getDate());
+    }
+    
+    public void createSpendings(Spendings spendings){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValue = new ContentValues();
+        contentValue.put(spendUser, spendings.getUser());
+        contentValue.put(spendingsID, spendings.getID());
+        contentValue.put(spendingAmount, spendings.getAmount());
+        contentValue.put(spendingDate, spendings.getDate());
+    }
 
+    public void createBudget(Budget budget){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValue = new ContentValues();
+        contentValue.put(budgetUser ,budget.getUsername());
+        contentValue.put(weeklyBudget ,budget.getBudget());
     }
 }
