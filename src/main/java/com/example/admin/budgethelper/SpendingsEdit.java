@@ -1,89 +1,57 @@
 package com.example.admin.budgethelper;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.database.Cursor;
 
-import java.text.DecimalFormat;
+public class SpendingsEdit extends AppCompatActivity {
 
-
-public class HomePage extends AppCompatActivity {
-
-    //SQLiteDatabase db = bhDatabase.getWritableDatabase();
-    //bhDatabase userDB= new bhDatabase(getApplicationContext());
-
-    String amount;
-    Double currentbudget=0.0;
-    TextView budgetamount;
+    TextView spendingsList;
+    String[] item, item1, item2;
+    String output="";
+    Integer i=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_page);
+        setContentView(R.layout.activity_spendingsedit);
 
-        budgetamount=(TextView)findViewById(R.id.budgetamount);
-/*
-        DBHelper myDbHelper = new DBHelper(getApplicationContext());
-        SQLiteDatabase db = myDbHelper.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT " + DBContract.BudgetEntry.COLUMN_AMOUNT + " FROM " + DBContract.BudgetEntry.TABLE_NAME, null);
-        if(c.moveToLast()){
-            //do{
-                //assing values
-                amount = c.getString(0);
-                //Do something Here with values
-
-            //}while(c.moveToNext());
-        }
-        c.close();
-        db.close();
-
-        budgetamount.setText("$"+amount);
-*/
+        spendingsList=(TextView)findViewById(R.id.spendingsList);
 
         DBHelper myDbHelper = new DBHelper(getApplicationContext());
         SQLiteDatabase db = myDbHelper.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT " + DBContract.BudgetEntry.COLUMN_AMOUNT + " FROM " + DBContract.BudgetEntry.TABLE_NAME, null);
-        if(c.moveToLast()){
-            //do{
-            //assing values
-            amount = c.getString(0);
-            //Do something Here with values
-
-            //}while(c.moveToNext());
-        }
-        c.close();
-        db.close();
-
-        //budgetamount.setText("$"+amount);
-
-        DBHelper myDbHelper2 = new DBHelper(getApplicationContext());
-        SQLiteDatabase db2 = myDbHelper2.getReadableDatabase();
-        Cursor c2 = db2.rawQuery("SELECT " + DBContract.SpendingsEntry.COLUMN_AMOUNT + " FROM " + DBContract.SpendingsEntry.TABLE_NAME, null);
-        if(c2.moveToFirst()){
+        Cursor c = db.rawQuery("SELECT " + DBContract.SpendingsEntry.COLUMN_AMOUNT + ", "+DBContract.SpendingsEntry.COLUMN_DATE + ", " +DBContract.SpendingsEntry.COLUMN_STORE+ " FROM " + DBContract.SpendingsEntry.TABLE_NAME, null);
+        if(c.moveToFirst()){
             do{
                 //assing values
-                String item = c2.getString(0);
-
+                item[i] = c.getString(0);
+                item1[i] = c.getString(1);
+                item2[i] = c.getString(2);
                 //Do something Here with values
-                currentbudget+= (Double.valueOf(item));
 
-            }while(c2.moveToNext());
+                i++;
+
+            }while(c.moveToNext());
         }
-        c2.close();
-        db2.close();
+        c.close();
+        db.close();
 
-        Double remaining = (Double.valueOf(amount)-currentbudget);
-        DecimalFormat format = new DecimalFormat("##.00");
+        for(Integer j=0; j<i; j++){
+            output=output+"$"+item[j]+" "+item1[j]+" "+item2[j]+" NEXT ";
+        }
 
-        budgetamount.setText("$"+format.format(remaining));
-
+        spendingsList.setText(output);
 
     }
 
