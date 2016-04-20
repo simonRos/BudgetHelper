@@ -47,6 +47,21 @@
             android:label="UO">
 
         </activity>
+        <activity
+            android:name=".AccountStartPage"
+            android:label="Account">
+
+        </activity>
+        <activity
+            android:name=".IOUEdit"
+            android:label="Edit IOUs">
+
+        </activity>
+        <activity
+            android:name=".SpendingsEdit"
+            android:label="Edit Spendings">
+
+        </activity>
 
     </application>
 
