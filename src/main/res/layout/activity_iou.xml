@@ -7,13 +7,13 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.admin.budgethelper.Spendings">
+    tools:context="com.example.admin.budgethelper.IOU">
 
     <TextView
         android:id="@id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add a purchase"
+        android:text="Add an IOU"
         android:textSize="30dp"
         android:textColor="#0101DF"
         android:layout_alignParentTop="true"/>
@@ -23,42 +23,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
-        android:background="#CCCCCC"
-        android:ems="10"
         android:id="@+id/amount"
-        android:layout_below="@id/title"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@+id/title"/>
 
     <EditText
-        android:hint="@string/store"
+        android:hint="Friend's Name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#CCCCCC"
-        android:ems="10"
-        android:id="@+id/store"
-        android:layout_above="@+id/spendingdate"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="52dp" />
+        android:id="@+id/name"
+        android:layout_below="@+id/amount"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/date"
-        android:id="@+id/spendingdate"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/ioudate"
+        android:layout_below="@+id/name"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/save"
         android:id="@+id/saveButton"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="89dp" />
+        android:layout_below="@+id/ioudate"/>
 
 
 </RelativeLayout>
