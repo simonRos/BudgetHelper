@@ -23,6 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
+        android:ems="15"
         android:id="@+id/amount"
         android:layout_below="@+id/title"/>
 
@@ -30,22 +31,35 @@
         android:hint="Friend's Name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:ems="15"
         android:id="@+id/name"
         android:layout_below="@+id/amount"/>
 
-    <Button
+    <EditText
+        android:hint="Date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/date"
-        android:id="@+id/uodate"
+        android:ems="10"
+        android:id="@+id/dateInput"
         android:layout_below="@+id/name"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/save"
+        android:text="Find Date"
+        android:id="@+id/uodate"
+        android:layout_below="@+id/name"
+        android:layout_toRightOf="@id/dateInput"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
         android:id="@+id/saveButton"
-        android:layout_below="@+id/uodate"/>
+        android:layout_below="@+id/uodate"
+        android:layout_toRightOf="@id/title"
+        android:layout_toEndOf="@id/title"
+        android:layout_marginTop="121dp" />
 
 
 </RelativeLayout>

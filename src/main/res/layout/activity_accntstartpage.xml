@@ -24,14 +24,17 @@
         android:layout_height="wrap_content"
         android:text="Spending's for this week"
         android:id="@+id/spendListButton"
-        android:layout_below="@+id/title"/>
+        android:layout_below="@id/title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="64dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Current IOUs"
         android:id="@+id/iouListButton"
-        android:layout_below="@+id/spendListButton"/>
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

@@ -18,22 +18,44 @@
         android:textColor="#0101DF"
         android:layout_alignParentTop="true"/>
 
-    <TextView
-        android:id="@+id/spendingsList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="No Spendings yet"
-        android:layout_below="@+id/title"/>
-
     <TableLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/tableLayout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/spendingsList"
         android:shrinkColumns="*"
-        android:stretchColumns="*">
-        <TableRow>
+        android:stretchColumns="*"
+        android:layout_below="@id/title"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="36dp">
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
             <TextView
-                android:text="Test"/>
+                android:id="@+id/Blank"
+                android:text=""></TextView>
+            <TextView
+                android:id="@+id/TextView04"
+                android:text="Date"
+                android:textStyle="bold"
+                android:typeface="serif"></TextView>
+            <TextView
+                android:id="@+id/TextView03"
+                android:text="Amount"
+                android:textStyle="bold"
+                android:typeface="serif"></TextView>
+            <TextView
+                android:id="@+id/TextView02"
+                android:text="Store"
+                android:textStyle="bold"
+                android:typeface="serif"></TextView>
+            <TextView
+                android:id="@+id/TextView01"
+                android:text="Edit"
+                android:textStyle="bold"
+                android:typeface="serif"></TextView>
         </TableRow>
     </TableLayout>
 

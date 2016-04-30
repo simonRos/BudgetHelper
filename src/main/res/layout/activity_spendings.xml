@@ -16,16 +16,18 @@
         android:text="Add a purchase"
         android:textSize="30dp"
         android:textColor="#0101DF"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:hint="@string/amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
-        android:background="#CCCCCC"
-        android:ems="10"
+        android:ems="15"
         android:id="@+id/amount"
+        android:layout_marginTop="41dp"
         android:layout_below="@id/title"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -34,31 +36,40 @@
         android:hint="@string/store"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#CCCCCC"
-        android:ems="10"
+        android:ems="15"
         android:id="@+id/store"
-        android:layout_above="@+id/spendingdate"
+        android:layout_below="@+id/amount"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="52dp" />
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:hint="Date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="15"
+        android:id="@+id/dateInput"
+        android:layout_below="@+id/store"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/saveButton"
+        android:layout_alignEnd="@+id/saveButton" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/date"
+        android:text="Today"
         android:id="@+id/spendingdate"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@+id/store"
+        android:layout_toRightOf="@+id/dateInput" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/save"
         android:id="@+id/saveButton"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/spendingdate"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="89dp" />
+        android:layout_marginTop="62dp" />
 
 
 </RelativeLayout>

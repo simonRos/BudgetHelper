@@ -77,25 +77,10 @@
         android:hint="@string/amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:ems="15"
         android:inputType="numberDecimal"
         android:id="@+id/amount"
         android:layout_below="@+id/newbudgetprompt"/>
-
-    <EditText
-        android:hint="@string/startdate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="date"
-        android:id="@+id/dateInput"
-        android:layout_below="@+id/amount"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Find Date"
-        android:id="@+id/startdate"
-        android:layout_toRightOf="@+id/dateInput"
-        android:layout_below="@+id/amount"/>
 
     <Button
         android:layout_width="wrap_content"
