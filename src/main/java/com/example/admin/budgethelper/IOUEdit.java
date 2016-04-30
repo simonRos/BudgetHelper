@@ -3,6 +3,8 @@ package com.example.admin.budgethelper;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,14 +12,124 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.text.DateFormat;
+import java.util.Locale;
 
 public class IOUEdit extends AppCompatActivity {
+
+    String item, item1, item2;
+    Date date, curDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_iouedit);
+
+        /* Find Tablelayout defined in main.xml */
+        final TableLayout tableLayout = (TableLayout)findViewById(R.id.tableLayout1);
+
+        DBHelper myDbHelper = new DBHelper(getApplicationContext());
+        SQLiteDatabase db = myDbHelper.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT " + DBContract.IOUEntry.COLUMN_AMOUNT + ", "+DBContract.IOUEntry.COLUMN_DATE + ", " +DBContract.IOUEntry.COLUMN_FROM+ " FROM " + DBContract.IOUEntry.TABLE_NAME, null);
+        if(c.moveToFirst()){
+            do{
+                //assing values
+                item = c.getString(0);
+                item1 = c.getString(1);
+                item2 = c.getString(2);
+                //Do something Here with values
+
+
+                SimpleDateFormat sdfTime = new SimpleDateFormat("MM/dd/yyyy");
+                Date now = new Date();
+                String strTime = sdfTime.format(now);
+
+                // (1) create a SimpleDateFormat object with the desired format.
+                // this is the format/pattern we're expecting to receive.
+                String expectedPattern = "MM/dd/yyyy";
+                SimpleDateFormat formatter = new SimpleDateFormat(expectedPattern);
+                DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
+                //Date date;
+                //Date curDate;
+                try
+                {
+                    // (2) give the formatter a String that matches the SimpleDateFormat pattern
+                    //String userInput = "09/22/2009";
+                    date = formatter.parse(item1);
+                    curDate = formatter.parse(strTime);
+
+                    // (3) prints out "Tue Sep 22 00:00:00 EDT 2009"
+                    //System.out.println(date);
+                }
+                catch (ParseException e)
+                {
+                    // execution will come here if the String that is given
+                    // does not match the expected format.
+                    e.printStackTrace();
+                }
+
+                if(date.before(curDate)){
+                    item="It works!";
+                }
+
+
+                // Creation row
+                final TableRow tableRow = new TableRow(this);
+                tableRow.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
+
+                // Creation textView
+                final TextView blank = new TextView(this);
+                blank.setText(" ");
+                blank.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+                // Creation textView
+                final TextView text1 = new TextView(this);
+                text1.setText(dateFormat.format(date));//item1
+                text1.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+                // Creation textView
+                final TextView text2 = new TextView(this);
+                text2.setText("$" + item);
+                text2.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+                // Creation textView
+                final TextView text3 = new TextView(this);
+                text3.setText(dateFormat.format(curDate));//item2
+                text3.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+                // Creation  button
+                final Button button = new Button(this);
+                button.setText("Delete");
+                button.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final TableRow parent = (TableRow) v.getParent();
+                        tableLayout.removeView(parent);
+                    }
+                });
+
+                tableRow.addView(blank);
+                tableRow.addView(text1);
+                tableRow.addView(text2);
+                tableRow.addView(text3);
+                tableRow.addView(button);
+
+                tableLayout.addView(tableRow);
+
+            }while(c.moveToNext());
+        }
+        c.close();
+        db.close();
+
+        //spendingsList.setText(item);
 
     }
 

@@ -17,8 +17,9 @@ import android.widget.Toast;
 
 public class UO extends AppCompatActivity {
 
-    EditText amount,name;
+    EditText amount,name, dateInput;
     Button uodate, save;
+    String amountVal, nameVal, dateInputVal;
 
     int year_x,month_x,day_x;
     static final int DIALOG_ID = 0;
@@ -37,6 +38,11 @@ public class UO extends AppCompatActivity {
 
         amount=(EditText)findViewById(R.id.amount);
         name=(EditText)findViewById(R.id.name);
+        dateInput=(EditText)findViewById(R.id.dateInput);
+
+        amountVal = ""+amount.getText();
+        nameVal = ""+name.getText();
+        dateInputVal = ""+dateInput.getText();
 
         save=(Button)findViewById(R.id.saveButton);
 
@@ -53,35 +59,42 @@ public class UO extends AppCompatActivity {
                 */
 
 
-                DBHelper myDbHelper = new DBHelper(getApplicationContext());
-                SQLiteDatabase db = myDbHelper.getWritableDatabase();
-                ContentValues values = new ContentValues();
+                if(amountVal.equals("") || nameVal.equals("") || dateInputVal.equals("")){
+                    String errormsg = "Please fill out all fields";
+                    int duration=Toast.LENGTH_LONG;
+                    Toast toast=Toast.makeText(getApplicationContext(), errormsg, duration);
+                    toast.show();
+                }else {
+                    DBHelper myDbHelper = new DBHelper(getApplicationContext());
+                    SQLiteDatabase db = myDbHelper.getWritableDatabase();
+                    ContentValues values = new ContentValues();
 
-                values.put(DBContract.UOEntry.COLUMN_AMOUNT, amount.getText().toString());
-                values.put(DBContract.UOEntry.COLUMN_TO, name.getText().toString());
-                values.put(DBContract.UOEntry.COLUMN_DATE, uodate.getText().toString());
+                    values.put(DBContract.UOEntry.COLUMN_AMOUNT, amount.getText().toString());
+                    values.put(DBContract.UOEntry.COLUMN_TO, name.getText().toString());
+                    values.put(DBContract.UOEntry.COLUMN_DATE, dateInput.getText().toString());
 
-                long newRowId = db.insert(
-                        DBContract.UOEntry.TABLE_NAME,
-                        null,
-                        values);
+                    long newRowId = db.insert(
+                            DBContract.UOEntry.TABLE_NAME,
+                            null,
+                            values);
 
-                String result;
+                    String result;
 
-                if (newRowId != -1) {
-                    result = "UO Updated";
-                } else {
-                    result = "Error creating UO";
+                    if (newRowId != -1) {
+                        result = "UO Updated";
+                    } else {
+                        result = "Error creating UO";
+                    }
+
+
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(getApplicationContext(), result, duration);
+                    toast.show();
+
+                    amount.setText("");
+                    name.setText("");
+                    amount.requestFocus();
                 }
-
-
-                int duration = Toast.LENGTH_LONG;
-                Toast toast = Toast.makeText(getApplicationContext(), result, duration);
-                toast.show();
-
-                amount.setText("");
-                name.setText("");
-                amount.requestFocus();
             }
         });
     }
@@ -114,8 +127,9 @@ public class UO extends AppCompatActivity {
             year_x = year;
             month_x = monthOfYear + 1;
             day_x = dayOfMonth;
-            Toast.makeText(UO.this, month_x + "/" + day_x + "/" + year_x, Toast.LENGTH_SHORT).show();
-            uodate.setText(month_x+"/"+day_x+"/"+year_x);
+            //Toast.makeText(UO.this, month_x + "/" + day_x + "/" + year_x, Toast.LENGTH_SHORT).show();
+            //uodate.setText(month_x + "/" + day_x + "/" + year_x);
+            dateInput.setText(month_x+"/"+day_x+"/"+year_x);
 
         }
     };

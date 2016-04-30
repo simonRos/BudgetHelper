@@ -20,42 +20,47 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class Budget extends AppCompatActivity {
     EditText amount;
-    EditText inputdate;
-    Button startdate;
+    //EditText inputdate;
+    //Button startdate;
     Button save;
     TextView budgetamount, currentbudget;
 
-    String amountNum;
+    String amountNum, amountVal;
     Double spendingsNum=0.0;
     //Integer remaining;
 
-    int year_x,month_x,day_x;
-    static final int DIALOG_ID = 0;
+    //int year_x,month_x,day_x;
+    //static final int DIALOG_ID = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_budget);
-
+/*
         final Calendar cal = Calendar.getInstance();
         year_x = cal.get(Calendar.YEAR);
         month_x = cal.get(Calendar.MONTH);
         day_x = cal.get(Calendar.DAY_OF_MONTH);
-
-        showDialogOnButtonClick();
+*/
+        //showDialogOnButtonClick();
 
         amount=(EditText)findViewById(R.id.amount);
-        inputdate=(EditText)findViewById(R.id.dateInput);
+        //inputdate=(EditText)findViewById(R.id.dateInput);
+
+        amountVal = ""+amount.getText();
 
         budgetamount=(TextView)findViewById(R.id.budgetamount);
         currentbudget=(TextView)findViewById(R.id.currentbudgetamount);
 
 
         save=(Button)findViewById(R.id.saveButton);
+
 
         DBHelper myDbHelper = new DBHelper(getApplicationContext());
         SQLiteDatabase db = myDbHelper.getReadableDatabase();
@@ -71,7 +76,11 @@ public class Budget extends AppCompatActivity {
         c.close();
         db.close();
 
-        budgetamount.setText("$"+amountNum);
+        if(amountVal.equals("")){
+            budgetamount.setText("No Budget");
+        }else{
+            budgetamount.setText("$"+amountNum);
+        }
 
         DBHelper myDbHelper2 = new DBHelper(getApplicationContext());
         SQLiteDatabase db2 = myDbHelper2.getReadableDatabase();
@@ -93,13 +102,14 @@ public class Budget extends AppCompatActivity {
         c2.close();
         db2.close();
 
-        Double remaining = (Double.valueOf(amountNum)-spendingsNum);
-        DecimalFormat format = new DecimalFormat("##.00");
+        if(spendingsNum==0){
+            currentbudget.setText("No Spendings");
+        }else {
+            Double remaining = (Double.valueOf(amountNum) - spendingsNum);
+            DecimalFormat format = new DecimalFormat("##.00");
 
-        //Double remaining = (Double.valueOf(amountNum))-(Double.valueOf(spendingsNum));
-
-        currentbudget.setText("$"+format.format(remaining));
-
+            currentbudget.setText("$" + format.format(remaining));
+        }
 
         save.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -114,40 +124,52 @@ public class Budget extends AppCompatActivity {
                 */
 
 
-                DBHelper myDbHelper = new DBHelper(getApplicationContext());
-                SQLiteDatabase db = myDbHelper.getWritableDatabase();
-                ContentValues values = new ContentValues();
+                if(amountVal.equals("")){
+                    String errormsg = "Please fill out all fields";
+                    int duration=Toast.LENGTH_LONG;
+                    Toast toast=Toast.makeText(getApplicationContext(), errormsg, duration);
+                    toast.show();
+                }else {
 
-                values.put(DBContract.BudgetEntry.COLUMN_AMOUNT, amount.getText().toString());
-                values.put(DBContract.BudgetEntry.COLUMN_DATE, startdate.getText().toString());
+                    SimpleDateFormat sdfTime = new SimpleDateFormat("MM/dd/yyyy");
+                    Date now = new Date();
+                    String strTime = sdfTime.format(now);
 
-                long newRowId = db.insert(
-                        DBContract.BudgetEntry.TABLE_NAME,
-                        null,
-                        values);
+                    DBHelper myDbHelper = new DBHelper(getApplicationContext());
+                    SQLiteDatabase db = myDbHelper.getWritableDatabase();
+                    ContentValues values = new ContentValues();
 
-                String result;
+                    values.put(DBContract.BudgetEntry.COLUMN_AMOUNT, amount.getText().toString());
+                    values.put(DBContract.BudgetEntry.COLUMN_DATE, strTime);
 
-                if(newRowId != -1){
-                    result = "Budget Updated";
-                }else{
-                    result = "Error creating budget";
+                    long newRowId = db.insert(
+                            DBContract.BudgetEntry.TABLE_NAME,
+                            null,
+                            values);
+
+                    String result;
+
+                    if (newRowId != -1) {
+                        result = "Budget Updated";
+                    } else {
+                        result = "Error creating budget";
+                    }
+
+
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(getApplicationContext(), result, duration);
+                    toast.show();
+
+                    amount.setText("");
+                    //inputdate.setText("");
+                    //amount.requestFocus();
                 }
-
-
-                int duration=Toast.LENGTH_LONG;
-                Toast toast=Toast.makeText(getApplicationContext(), result, duration);
-                toast.show();
-
-                amount.setText("");
-                inputdate.setText("");
-                amount.requestFocus();
 
 
             }
         });
     }
-
+/*
     public void showDialogOnButtonClick(){
         startdate = (Button)findViewById(R.id.startdate);
 
@@ -176,12 +198,13 @@ public class Budget extends AppCompatActivity {
             year_x = year;
             month_x = monthOfYear + 1;
             day_x = dayOfMonth;
-            Toast.makeText(Budget.this,month_x+"/"+day_x+"/"+year_x, Toast.LENGTH_SHORT).show();
-            startdate.setText(month_x + "/" + day_x + "/" + year_x);
+            //Toast.makeText(Budget.this,month_x+"/"+day_x+"/"+year_x, Toast.LENGTH_SHORT).show();
+            //startdate.setText(month_x + "/" + day_x + "/" + year_x);
+            inputdate.setText(month_x + "/" + day_x + "/" + year_x);
 
         }
     };
-
+*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_main, menu);

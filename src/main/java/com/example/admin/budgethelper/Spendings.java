@@ -19,8 +19,9 @@ import java.util.Calendar;
 
 public class Spendings extends AppCompatActivity {
 
-    EditText amount, store;
+    EditText amount, store, dateInput;
     Button spendingdate, save;
+    String amountVal, storeVal, dateInputVal;
 
     int year_x,month_x,day_x;
     static final int DIALOG_ID = 0;
@@ -39,6 +40,11 @@ public class Spendings extends AppCompatActivity {
 
         amount=(EditText)findViewById(R.id.amount);
         store=(EditText)findViewById(R.id.store);
+        dateInput=(EditText)findViewById(R.id.dateInput);
+
+        amountVal=""+amount.getText();
+        storeVal=""+store.getText();
+        dateInputVal=""+dateInput.getText();
 
 
         save=(Button)findViewById(R.id.saveButton);
@@ -46,45 +52,52 @@ public class Spendings extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+/*
+                String errormsg = "Please fill out all fields";
+                int duration=Toast.LENGTH_LONG;
+                Toast toast=Toast.makeText(getApplicationContext(), storeVal, duration);
+                toast.show();
+                amount.equals("");
+*/
 
-                /*
-                bhDatabase myDB = new bhDatabase(getApplicationContext());
-                SQLiteDatabase userDB = myDB.getWritableDatabase();
-                BudgetDB myBudget = new BudgetDB("example", 100);
-                        //Double.parseDouble(amount));
-                userDB.createBudget(myBudget);
-                */
+
+                if(!(amountVal.equals("")) && !(storeVal.equals("")) && !(dateInputVal.equals(""))){
+                    DBHelper myDbHelper = new DBHelper(getApplicationContext());
+                    SQLiteDatabase db = myDbHelper.getWritableDatabase();
+                    ContentValues values = new ContentValues();
+
+                    values.put(DBContract.SpendingsEntry.COLUMN_AMOUNT, amount.getText().toString());
+                    values.put(DBContract.SpendingsEntry.COLUMN_STORE, store.getText().toString());
+                    values.put(DBContract.SpendingsEntry.COLUMN_DATE, dateInput.getText().toString());
+
+                    long newRowId = db.insert(
+                            DBContract.SpendingsEntry.TABLE_NAME,
+                            null,
+                            values);
+
+                    String result;
+
+                    if (newRowId != -1) {
+                        result = "Spending Updated";
+                    } else {
+                        result = "Error creating spending";
+                    }
 
 
-                DBHelper myDbHelper = new DBHelper(getApplicationContext());
-                SQLiteDatabase db = myDbHelper.getWritableDatabase();
-                ContentValues values = new ContentValues();
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(getApplicationContext(), result, duration);
+                    toast.show();
 
-                values.put(DBContract.SpendingsEntry.COLUMN_AMOUNT, amount.getText().toString());
-                values.put(DBContract.SpendingsEntry.COLUMN_STORE, store.getText().toString());
-                values.put(DBContract.SpendingsEntry.COLUMN_DATE, spendingdate.getText().toString());
-
-                long newRowId = db.insert(
-                        DBContract.SpendingsEntry.TABLE_NAME,
-                        null,
-                        values);
-
-                String result;
-
-                if (newRowId != -1) {
-                    result = "Spending Updated";
-                } else {
-                    result = "Error creating spending";
+                    amount.setText("");
+                    store.setText("");
+                    amount.requestFocus();
+                }else{
+                    String errormsg = "Please fill out all fields";
+                    int duration=Toast.LENGTH_LONG;
+                    Toast toast=Toast.makeText(getApplicationContext(), errormsg, duration);
+                    toast.show();
                 }
 
-
-                int duration = Toast.LENGTH_LONG;
-                Toast toast = Toast.makeText(getApplicationContext(), result, duration);
-                toast.show();
-
-                amount.setText("");
-                store.setText("");
-                amount.requestFocus();
             }
         });
     }
@@ -117,8 +130,9 @@ public class Spendings extends AppCompatActivity {
             year_x = year;
             month_x = monthOfYear + 1;
             day_x = dayOfMonth;
-            Toast.makeText(Spendings.this, month_x + "/" + day_x + "/" + year_x, Toast.LENGTH_SHORT).show();
-            spendingdate.setText(month_x+"/"+day_x+"/"+year_x);
+            //Toast.makeText(Spendings.this, month_x + "/" + day_x + "/" + year_x, Toast.LENGTH_SHORT).show();
+            //spendingdate.setText(month_x + "/" + day_x + "/" + year_x);
+            dateInput.setText(month_x+"/"+day_x+"/"+year_x);
 
         }
     };
