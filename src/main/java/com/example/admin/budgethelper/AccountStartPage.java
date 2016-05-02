@@ -2,10 +2,13 @@
 CS 300
 BudgetHelper App
 May 1, 2016
+
+Account Setting page.
+Link portal for user to view their data on the app.
  */
 
 package com.example.admin.budgethelper;
-
+//imports
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -25,11 +28,11 @@ public class AccountStartPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accntstartpage);
 
-        spendings=(Button)findViewById(R.id.spendListButton);
-        iou=(Button)findViewById(R.id.iouListButton);
-        uo=(Button)findViewById(R.id.uoListButton);
+        spendings=(Button)findViewById(R.id.spendListButton); //To Spendings button
+        iou=(Button)findViewById(R.id.iouListButton);   //To IOU button
+        uo=(Button)findViewById(R.id.uoListButton); //To UO button
 
-        spendings.setOnClickListener(new View.OnClickListener() {
+        spendings.setOnClickListener(new View.OnClickListener() {   //Click Listeners for Spending
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SpendingsEdit.class);
@@ -37,7 +40,7 @@ public class AccountStartPage extends AppCompatActivity {
             }
         });
 
-        iou.setOnClickListener(new View.OnClickListener() {
+        iou.setOnClickListener(new View.OnClickListener() { //Click Listeners for IOU
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), IOUEdit.class);
@@ -45,7 +48,7 @@ public class AccountStartPage extends AppCompatActivity {
             }
         });
 
-        uo.setOnClickListener(new View.OnClickListener(){
+        uo.setOnClickListener(new View.OnClickListener(){ //Click Listeners for UO
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), UOEdit.class);
@@ -55,13 +58,13 @@ public class AccountStartPage extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu){ 
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item){    //Menu
         int id = item.getItemId();
 
         switch (id){
