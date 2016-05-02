@@ -2,10 +2,13 @@
 CS 300
 BudgetHelper App
 May 1, 2016
+
+Calculates Budget according to spendings.
+Also handles updated budgets.
  */
 
 package com.example.admin.budgethelper;
-
+//Aimports
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
@@ -24,7 +27,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
+//Jimports
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,11 +35,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Budget extends AppCompatActivity {
-    EditText amount;
-    //EditText inputdate;
-    //Button startdate;
-    Button save;
-    TextView budgetamount, currentbudget;
+    EditText amount;    //Edit amount text
+    Button save;    //Save button
+    TextView budgetamount, currentbudget;   //Amount and budget text
 
     //amountNum= the value pulled from the database
     //amountVal= is the String equivalent to amount
@@ -44,38 +45,22 @@ public class Budget extends AppCompatActivity {
     Double spendingsNum=0.0;
     Date spendDate = new Date();
     Date budgDate = new Date();
-    //Integer remaining;
-
-    //int year_x,month_x,day_x;
-    //static final int DIALOG_ID = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_budget);
-/*
-        final Calendar cal = Calendar.getInstance();
-        year_x = cal.get(Calendar.YEAR);
-        month_x = cal.get(Calendar.MONTH);
-        day_x = cal.get(Calendar.DAY_OF_MONTH);
-*/
-        //showDialogOnButtonClick();
 
         amount=(EditText)findViewById(R.id.amount);
-        //inputdate=(EditText)findViewById(R.id.dateInput);
-
         budgetamount=(TextView)findViewById(R.id.budgetamount);
         currentbudget=(TextView)findViewById(R.id.currentbudgetamount);
-
-
         save=(Button)findViewById(R.id.saveButton);
 
-
-        DBHelper myDbHelper = new DBHelper(getApplicationContext());
-        SQLiteDatabase db = myDbHelper.getReadableDatabase();
+        DBHelper myDbHelper = new DBHelper(getApplicationContext());    //DBHelper
+        SQLiteDatabase db = myDbHelper.getReadableDatabase();   //Readable database
+        //Cursor is grabbing latest budget from Database
         Cursor c = db.rawQuery("SELECT " + DBContract.BudgetEntry.COLUMN_AMOUNT + ", " + DBContract.BudgetEntry.COLUMN_DATE + " FROM " + DBContract.BudgetEntry.TABLE_NAME, null);
         if(c.moveToLast()){
-            //do{
             //assing values
             amountNum = c.getString(0);
             dateStr = c.getString(1);
@@ -89,9 +74,7 @@ public class Budget extends AppCompatActivity {
             try
             {
                 // (2) give the formatter a String that matches the SimpleDateFormat pattern
-                //String userInput = "09/22/2009";
                 budgDate = formatter.parse(dateStr);
-
             }
             catch (ParseException e)
             {
@@ -100,17 +83,17 @@ public class Budget extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            //}while(c.moveToNext());
         }
         c.close();
         db.close();
 
-        if(amountNum.equals("")){
+        if(amountNum.equals("")){   //Sanitizing input. This catches blank input.
             budgetamount.setText("No Budget");
         }else{
             budgetamount.setText("$"+amountNum);
         }
 
+        //DB for spendings
         DBHelper myDbHelper2 = new DBHelper(getApplicationContext());
         SQLiteDatabase db2 = myDbHelper2.getReadableDatabase();
         Cursor c2 = db2.rawQuery("SELECT " + DBContract.SpendingsEntry.COLUMN_AMOUNT + ", " + DBContract.SpendingsEntry.COLUMN_DATE + " FROM " + DBContract.SpendingsEntry.TABLE_NAME, null);
@@ -141,7 +124,7 @@ public class Budget extends AppCompatActivity {
 
 
 
-            }while(c2.moveToNext());
+            }while(c2.moveToNext());    //While more spendings exist
         }
         c2.close();
         db2.close();
@@ -159,29 +142,14 @@ public class Budget extends AppCompatActivity {
             @Override
             public void onClick(View v){
 
-                /*
-                bhDatabase myDB = new bhDatabase(getApplicationContext());
-                SQLiteDatabase userDB = myDB.getWritableDatabase();
-                BudgetDB myBudget = new BudgetDB("example", 100);
-                        //Double.parseDouble(amount));
-                userDB.createBudget(myBudget);
-                */
-/*
-                String errormsg = "Please fill out all fields";
-                int duration=Toast.LENGTH_LONG;
-                Toast toast=Toast.makeText(getApplicationContext(), amount.getText(), duration);
-                toast.show();
-*/
-
                 amountVal=""+amount.getText();
 
-                if(amountVal.equals("")){
+                if(amountVal.equals("")){   //Check for blank input
                     String errormsg = "Please fill out all fields";
                     int duration=Toast.LENGTH_LONG;
-                    Toast toast=Toast.makeText(getApplicationContext(), errormsg, duration);
+                    Toast toast=Toast.makeText(getApplicationContext(), errormsg, duration);    //errorToast
                     toast.show();
                 }else {
-
                     SimpleDateFormat sdfTime = new SimpleDateFormat("MM/dd/yyyy");
                     Date now = new Date();
                     String strTime = sdfTime.format(now);
@@ -212,8 +180,6 @@ public class Budget extends AppCompatActivity {
                     toast.show();
 
                     amount.setText("");
-                    //inputdate.setText("");
-                    //amount.requestFocus();
 
                 }
 
@@ -221,42 +187,7 @@ public class Budget extends AppCompatActivity {
             }
         });
     }
-/*
-    public void showDialogOnButtonClick(){
-        startdate = (Button)findViewById(R.id.startdate);
 
-        startdate.setOnClickListener(
-                new View.OnClickListener(){
-                    @Override
-                    public void onClick(View v){
-                        showDialog(DIALOG_ID);
-
-                    }
-                }
-        );
-    }
-
-    @Override
-    protected Dialog onCreateDialog(int id){
-        if (id == DIALOG_ID)
-            return new DatePickerDialog(this, dpickerListner, year_x, month_x, day_x);
-        return null;
-    }
-
-    private DatePickerDialog.OnDateSetListener dpickerListner
-            = new DatePickerDialog.OnDateSetListener(){
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
-            year_x = year;
-            month_x = monthOfYear + 1;
-            day_x = dayOfMonth;
-            //Toast.makeText(Budget.this,month_x+"/"+day_x+"/"+year_x, Toast.LENGTH_SHORT).show();
-            //startdate.setText(month_x + "/" + day_x + "/" + year_x);
-            inputdate.setText(month_x + "/" + day_x + "/" + year_x);
-
-        }
-    };
-*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -264,7 +195,7 @@ public class Budget extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item){    //Menu
         int id = item.getItemId();
 
         switch (id){
