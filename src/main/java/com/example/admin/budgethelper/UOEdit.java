@@ -2,10 +2,13 @@
 CS 300
 BudgetHelper App
 May 1, 2016
+
+Allows user to view existing UOs.
+Allows user to delete UOs
  */
 
 package com.example.admin.budgethelper;
-
+//Aimports
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -22,6 +25,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+//Jimports
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,50 +48,16 @@ public class UOEdit extends AppCompatActivity {
 
         DBHelper myDbHelper = new DBHelper(getApplicationContext());
         SQLiteDatabase db = myDbHelper.getReadableDatabase();
+        //Cursor needed to access database
         Cursor c = db.rawQuery("SELECT " + DBContract.UOEntry.COLUMN_AMOUNT + ", " + DBContract.UOEntry.COLUMN_DATE + ", " + DBContract.UOEntry.COLUMN_TO + ", " + DBContract.UOEntry._ID + " FROM " + DBContract.UOEntry.TABLE_NAME, null);
         if(c.moveToFirst()){
             do{
-                //assing values
+                //assign values
                 item = c.getString(0);
                 item1 = c.getString(1);
                 item2 = c.getString(2);
                 item3 = c.getInt(3);
-                //Do something Here with values
 
-/*
-                SimpleDateFormat sdfTime = new SimpleDateFormat("MM/dd/yyyy");
-                Date now = new Date();
-                String strTime = sdfTime.format(now);
-
-                // (1) create a SimpleDateFormat object with the desired format.
-                // this is the format/pattern we're expecting to receive.
-                String expectedPattern = "MM/dd/yyyy";
-                SimpleDateFormat formatter = new SimpleDateFormat(expectedPattern);
-                DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
-                //Date date;
-                //Date curDate;
-                try
-                {
-                    // (2) give the formatter a String that matches the SimpleDateFormat pattern
-                    //String userInput = "09/22/2009";
-                    date = formatter.parse(item1);
-                    curDate = formatter.parse(strTime);
-
-                    // (3) prints out "Tue Sep 22 00:00:00 EDT 2009"
-                    //System.out.println(date);
-                }
-                catch (ParseException e)
-                {
-                    // execution will come here if the String that is given
-                    // does not match the expected format.
-                    e.printStackTrace();
-                }
-
-                if(date.before(curDate)){
-                    item="It works!";
-                }
-
-*/
                 // Creation row
                 final TableRow tableRow = new TableRow(this);
                 tableRow.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
@@ -129,7 +99,7 @@ public class UOEdit extends AppCompatActivity {
                                 whereArgs);
 
                         String result;
-
+                        //Has UO been successfully deleted?
                         if (newRowId != -1) {
                             tableLayout.removeView(parent);
                             result = "UO Deleted";
@@ -156,7 +126,6 @@ public class UOEdit extends AppCompatActivity {
         c.close();
         db.close();
 
-        //spendingsList.setText(item);
 
     }
 
@@ -167,7 +136,7 @@ public class UOEdit extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item){    //menu
         int id = item.getItemId();
 
         switch (id){
