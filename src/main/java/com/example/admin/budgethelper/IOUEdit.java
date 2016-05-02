@@ -2,10 +2,14 @@
 CS 300
 BudgetHelper App
 May 1, 2016
+
+IOUedit
+Lists all active IOUs with info.
+User can delete IOUs.
  */
 
 package com.example.admin.budgethelper;
-
+//Aimport
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -22,6 +26,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+//Jimport
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -52,41 +57,6 @@ public class IOUEdit extends AppCompatActivity {
                 item1 = c.getString(1);
                 item2 = c.getString(2);
                 item3 = c.getInt(3);
-                //Do something Here with values
-
-/*
-                SimpleDateFormat sdfTime = new SimpleDateFormat("MM/dd/yyyy");
-                Date now = new Date();
-                String strTime = sdfTime.format(now);
-
-                // (1) create a SimpleDateFormat object with the desired format.
-                // this is the format/pattern we're expecting to receive.
-                String expectedPattern = "MM/dd/yyyy";
-                SimpleDateFormat formatter = new SimpleDateFormat(expectedPattern);
-                DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
-                //Date date;
-                //Date curDate;
-                try
-                {
-                    // (2) give the formatter a String that matches the SimpleDateFormat pattern
-                    //String userInput = "09/22/2009";
-                    date = formatter.parse(item1);
-                    curDate = formatter.parse(strTime);
-
-                    // (3) prints out "Tue Sep 22 00:00:00 EDT 2009"
-                    //System.out.println(date);
-                }
-                catch (ParseException e)
-                {
-                    // execution will come here if the String that is given
-                    // does not match the expected format.
-                    e.printStackTrace();
-                }
-
-                if(date.before(curDate)){
-                    item="It works!";
-                }
-*/
 
                 // Creation row
                 final TableRow tableRow = new TableRow(this);
@@ -112,7 +82,7 @@ public class IOUEdit extends AppCompatActivity {
                 text3.setText(item2);//item2
                 text3.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 
-                // Creation  button
+                // Delete button
                 final Button button = new Button(this);
                 button.setText("Delete");
                 button.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
@@ -156,8 +126,6 @@ public class IOUEdit extends AppCompatActivity {
         c.close();
         db.close();
 
-        //spendingsList.setText(item);
-
     }
 
     @Override
@@ -167,7 +135,7 @@ public class IOUEdit extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item){    //menu
         int id = item.getItemId();
 
         switch (id){
