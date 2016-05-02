@@ -1,3 +1,9 @@
+/*
+CS 300
+BudgetHelper App
+May 1, 2016
+ */
+
 package com.example.admin.budgethelper;
 
 import android.app.DatePickerDialog;
@@ -31,6 +37,7 @@ public class SpendingsEdit extends AppCompatActivity {
 
     TextView spendingsList;
     String amount, spendDateStr, store, dateStr;
+    int id;
     Date spendDate = new Date();
     Date budgDate = new Date();
     //Integer i=0;
@@ -79,13 +86,13 @@ public class SpendingsEdit extends AppCompatActivity {
 
         DBHelper myDbHelper2 = new DBHelper(getApplicationContext());
         SQLiteDatabase db2 = myDbHelper2.getReadableDatabase();
-        Cursor c2 = db2.rawQuery("SELECT " + DBContract.SpendingsEntry.COLUMN_AMOUNT + ", "+DBContract.SpendingsEntry.COLUMN_DATE + ", " +DBContract.SpendingsEntry.COLUMN_STORE+ " FROM " + DBContract.SpendingsEntry.TABLE_NAME, null);
+        Cursor c2 = db2.rawQuery("SELECT " + DBContract.SpendingsEntry.COLUMN_AMOUNT + ", "+ DBContract.SpendingsEntry.COLUMN_DATE + ", " + DBContract.SpendingsEntry.COLUMN_STORE + ", " + DBContract.SpendingsEntry._ID + " FROM " + DBContract.SpendingsEntry.TABLE_NAME, null);
         if(c2.moveToFirst()){
             do{
-                //assing values
                 amount = c2.getString(0);
                 spendDateStr = c2.getString(1);
                 store = c2.getString(2);
+                id = c2.getInt(3);
                 //Do something Here with values
 
                 String expectedPattern = "MM/dd/yyyy";
@@ -103,7 +110,7 @@ public class SpendingsEdit extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                if(spendDate.after(budgDate)) {
+                if(spendDate.after(budgDate) || spendDate.equals(budgDate)) {
 
                     // Creation row
                     final TableRow tableRow = new TableRow(this);
@@ -138,6 +145,26 @@ public class SpendingsEdit extends AppCompatActivity {
                         public void onClick(View v) {
                             final TableRow parent = (TableRow) v.getParent();
                             tableLayout.removeView(parent);
+                            DBHelper myDbHelper2 = new DBHelper(getApplicationContext());
+                            SQLiteDatabase db2 = myDbHelper2.getReadableDatabase();
+                            String[] whereArgs = new String[] { String.valueOf(id) };
+                            long newRowId = db2.delete(
+                                    DBContract.SpendingsEntry.TABLE_NAME,
+                                    DBContract.SpendingsEntry._ID+ "=?",
+                                    whereArgs);
+
+                            String result;
+
+                            if (newRowId != -1) {
+                                tableLayout.removeView(parent);
+                                result = "Spending Deleted";
+                            } else {
+                                result = "Error Deleting Spending";
+                            }
+
+                            int duration = Toast.LENGTH_LONG;
+                            Toast toast = Toast.makeText(getApplicationContext(), result, duration);
+                            toast.show();
                         }
                     });
 
@@ -150,7 +177,7 @@ public class SpendingsEdit extends AppCompatActivity {
                     tableLayout.addView(tableRow);
                 }
 
-            }while(c.moveToNext());
+            }while(c2.moveToNext());
         }
         c2.close();
         db2.close();

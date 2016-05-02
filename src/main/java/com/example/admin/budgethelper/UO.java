@@ -1,3 +1,9 @@
+/*
+CS 300
+BudgetHelper App
+May 1, 2016
+ */
+
 package com.example.admin.budgethelper;
 
 import android.app.DatePickerDialog;
@@ -40,10 +46,6 @@ public class UO extends AppCompatActivity {
         name=(EditText)findViewById(R.id.name);
         dateInput=(EditText)findViewById(R.id.dateInput);
 
-        amountVal = ""+amount.getText();
-        nameVal = ""+name.getText();
-        dateInputVal = ""+dateInput.getText();
-
         save=(Button)findViewById(R.id.saveButton);
 
         save.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +60,10 @@ public class UO extends AppCompatActivity {
                 userDB.createBudget(myBudget);
                 */
 
+
+                amountVal = ""+amount.getText();
+                nameVal = ""+name.getText();
+                dateInputVal = ""+dateInput.getText();
 
                 if(amountVal.equals("") || nameVal.equals("") || dateInputVal.equals("")){
                     String errormsg = "Please fill out all fields";
@@ -93,6 +99,7 @@ public class UO extends AppCompatActivity {
 
                     amount.setText("");
                     name.setText("");
+                    dateInput.setText("");
                     amount.requestFocus();
                 }
             }

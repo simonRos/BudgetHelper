@@ -1,3 +1,9 @@
+/*
+CS 300
+BudgetHelper App
+May 1, 2016
+ */
+
 package com.example.admin.budgethelper;
 
 import android.content.ContentValues;
@@ -12,7 +18,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 public class AccountStartPage extends AppCompatActivity {
-    Button spendings, iou;
+    Button spendings, iou, uo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +27,7 @@ public class AccountStartPage extends AppCompatActivity {
 
         spendings=(Button)findViewById(R.id.spendListButton);
         iou=(Button)findViewById(R.id.iouListButton);
+        uo=(Button)findViewById(R.id.uoListButton);
 
         spendings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,6 +41,14 @@ public class AccountStartPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), IOUEdit.class);
+                startActivity(intent);
+            }
+        });
+
+        uo.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), UOEdit.class);
                 startActivity(intent);
             }
         });

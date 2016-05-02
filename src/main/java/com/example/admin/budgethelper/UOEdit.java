@@ -28,7 +28,7 @@ import java.util.Date;
 import java.text.DateFormat;
 import java.util.Locale;
 
-public class IOUEdit extends AppCompatActivity {
+public class UOEdit extends AppCompatActivity {
 
     String item, item1, item2;
     int item3;
@@ -37,14 +37,14 @@ public class IOUEdit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_iouedit);
+        setContentView(R.layout.activity_uoedit);
 
         /* Find Tablelayout defined in main.xml */
         final TableLayout tableLayout = (TableLayout)findViewById(R.id.tableLayout1);
 
         DBHelper myDbHelper = new DBHelper(getApplicationContext());
         SQLiteDatabase db = myDbHelper.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT " + DBContract.IOUEntry.COLUMN_AMOUNT + ", " + DBContract.IOUEntry.COLUMN_DATE + ", " + DBContract.IOUEntry.COLUMN_FROM + ", " + DBContract.IOUEntry._ID + " FROM " + DBContract.IOUEntry.TABLE_NAME, null);
+        Cursor c = db.rawQuery("SELECT " + DBContract.UOEntry.COLUMN_AMOUNT + ", " + DBContract.UOEntry.COLUMN_DATE + ", " + DBContract.UOEntry.COLUMN_TO + ", " + DBContract.UOEntry._ID + " FROM " + DBContract.UOEntry.TABLE_NAME, null);
         if(c.moveToFirst()){
             do{
                 //assing values
@@ -86,8 +86,8 @@ public class IOUEdit extends AppCompatActivity {
                 if(date.before(curDate)){
                     item="It works!";
                 }
-*/
 
+*/
                 // Creation row
                 final TableRow tableRow = new TableRow(this);
                 tableRow.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
@@ -124,17 +124,17 @@ public class IOUEdit extends AppCompatActivity {
                         SQLiteDatabase db2 = myDbHelper2.getReadableDatabase();
                         String[] whereArgs = new String[] { String.valueOf(item3) };
                         long newRowId = db2.delete(
-                                DBContract.IOUEntry.TABLE_NAME,
-                                DBContract.IOUEntry._ID+ "=?",
+                                DBContract.UOEntry.TABLE_NAME,
+                                DBContract.UOEntry._ID+ "=?",
                                 whereArgs);
 
                         String result;
 
                         if (newRowId != -1) {
                             tableLayout.removeView(parent);
-                            result = "IOU Deleted";
+                            result = "UO Deleted";
                         } else {
-                            result = "Error Deleting IOU";
+                            result = "Error Deleting UO";
                         }
 
                         int duration = Toast.LENGTH_LONG;

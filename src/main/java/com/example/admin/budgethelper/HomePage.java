@@ -1,3 +1,9 @@
+/*
+CS 300
+BudgetHelper App
+May 1, 2016
+ */
+
 package com.example.admin.budgethelper;
 
 import android.content.ContentValues;
@@ -41,59 +47,51 @@ public class HomePage extends AppCompatActivity {
         budgetamount=(TextView)findViewById(R.id.budgetamount);
 
 
+        //Select current budget from the database to determine if the weekly budget should be reset
         DBHelper myDbHelper = new DBHelper(getApplicationContext());
         SQLiteDatabase db = myDbHelper.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT " + DBContract.BudgetEntry.COLUMN_AMOUNT + ", " + DBContract.BudgetEntry.COLUMN_DATE + " FROM " + DBContract.BudgetEntry.TABLE_NAME, null);
+
+        //Only select the most recent budget inputted
         if(c.moveToLast()){
-            //do{
-            //assing values
             amount = c.getString(0);
             date = c.getString(1);
-            //Do something Here with values
 
+            //Get current timestamp
             SimpleDateFormat sdfTime = new SimpleDateFormat("MM/dd/yyyy");
             Date now = new Date();
             String strTime = sdfTime.format(now);
 
-            // (1) create a SimpleDateFormat object with the desired format.
-            // this is the format/pattern we're expecting to receive.
+            //Create object "formatter" to format the dates
             String expectedPattern = "MM/dd/yyyy";
             SimpleDateFormat formatter = new SimpleDateFormat(expectedPattern);
 
+            //Exception handling
             try
             {
-                // (2) give the formatter a String that matches the SimpleDateFormat pattern
-                //String userInput = "09/22/2009";
+                //format budget start date and current date
                 budgetDate = formatter.parse(date);
                 curDate = formatter.parse(strTime);
 
-                // (3) prints out "Tue Sep 22 00:00:00 EDT 2009"
-                //System.out.println(date);
             }
             catch (ParseException e)
             {
-                // execution will come here if the String that is given
-                // does not match the expected format.
                 e.printStackTrace();
             }
 
+            //Find the number of milliseconds between the budget date and current date
             long msDiff = curDate.getTime() - budgetDate.getTime();
+            //Change the milliseconds to days
             days = TimeUnit.MILLISECONDS.toDays(msDiff);
-/*
-            if(days>=7){
-                amount="It works";
-            }else{
-                amount="It doesn't work";
-            }
 
-*/
-
-            //}while(c.moveToNext());
         }
 
         c.close();
         db.close();
 
+        //If there are 7 or more days between the budget start date and current date
+        //then it's been at least a week and a new budget is created with the same total budget amount
+        //but the start date is changed to the current date
         if(days>=7){
             DBHelper myDbHelper1 = new DBHelper(getApplicationContext());
             SQLiteDatabase db1 = myDbHelper1.getWritableDatabase();
@@ -123,14 +121,12 @@ public class HomePage extends AppCompatActivity {
             toast.show();
         }
 
-        //budgetamount.setText("$"+amount);
-
+        //Select the spendings from the database to subtract from the total budget
         DBHelper myDbHelper2 = new DBHelper(getApplicationContext());
         SQLiteDatabase db2 = myDbHelper2.getReadableDatabase();
         Cursor c2 = db2.rawQuery("SELECT " + DBContract.SpendingsEntry.COLUMN_AMOUNT + ", " +DBContract.SpendingsEntry.COLUMN_DATE+ " FROM " + DBContract.SpendingsEntry.TABLE_NAME, null);
         if(c2.moveToFirst()){
             do{
-                //assing values
                 String item = c2.getString(0);
                 String item2 = c2.getString(1);
 
@@ -149,6 +145,7 @@ public class HomePage extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+                //if the spendDate is after the budget start date then subtract it from the total budget
                 if(spendDate.after(budgetDate)){
                     currentbudget+= (Double.valueOf(item));
                 }
@@ -158,7 +155,7 @@ public class HomePage extends AppCompatActivity {
         c2.close();
         db2.close();
 
-        if(currentbudget==0){
+        if(date.equals("")){
             budgetamount.setText("No Budget");
         }else {
             Double remaining = (Double.valueOf(amount) - currentbudget);

@@ -1,3 +1,9 @@
+/*
+CS 300
+BudgetHelper App
+May 1, 2016
+ */
+
 package com.example.admin.budgethelper;
 
 import android.app.DatePickerDialog;
@@ -20,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -31,8 +38,12 @@ public class Budget extends AppCompatActivity {
     Button save;
     TextView budgetamount, currentbudget;
 
-    String amountNum, amountVal;
+    //amountNum= the value pulled from the database
+    //amountVal= is the String equivalent to amount
+    String amountNum, amountVal, dateStr, spendDateStr;
     Double spendingsNum=0.0;
+    Date spendDate = new Date();
+    Date budgDate = new Date();
     //Integer remaining;
 
     //int year_x,month_x,day_x;
@@ -53,8 +64,6 @@ public class Budget extends AppCompatActivity {
         amount=(EditText)findViewById(R.id.amount);
         //inputdate=(EditText)findViewById(R.id.dateInput);
 
-        amountVal = ""+amount.getText();
-
         budgetamount=(TextView)findViewById(R.id.budgetamount);
         currentbudget=(TextView)findViewById(R.id.currentbudgetamount);
 
@@ -64,19 +73,39 @@ public class Budget extends AppCompatActivity {
 
         DBHelper myDbHelper = new DBHelper(getApplicationContext());
         SQLiteDatabase db = myDbHelper.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT " + DBContract.BudgetEntry.COLUMN_AMOUNT + " FROM " + DBContract.BudgetEntry.TABLE_NAME, null);
+        Cursor c = db.rawQuery("SELECT " + DBContract.BudgetEntry.COLUMN_AMOUNT + ", " + DBContract.BudgetEntry.COLUMN_DATE + " FROM " + DBContract.BudgetEntry.TABLE_NAME, null);
         if(c.moveToLast()){
             //do{
             //assing values
             amountNum = c.getString(0);
+            dateStr = c.getString(1);
             //Do something Here with values
+
+            // (1) create a SimpleDateFormat object with the desired format.
+            // this is the format/pattern we're expecting to receive.
+            String expectedPattern = "MM/dd/yyyy";
+            SimpleDateFormat formatter = new SimpleDateFormat(expectedPattern);
+
+            try
+            {
+                // (2) give the formatter a String that matches the SimpleDateFormat pattern
+                //String userInput = "09/22/2009";
+                budgDate = formatter.parse(dateStr);
+
+            }
+            catch (ParseException e)
+            {
+                // execution will come here if the String that is given
+                // does not match the expected format.
+                e.printStackTrace();
+            }
 
             //}while(c.moveToNext());
         }
         c.close();
         db.close();
 
-        if(amountVal.equals("")){
+        if(amountNum.equals("")){
             budgetamount.setText("No Budget");
         }else{
             budgetamount.setText("$"+amountNum);
@@ -84,18 +113,33 @@ public class Budget extends AppCompatActivity {
 
         DBHelper myDbHelper2 = new DBHelper(getApplicationContext());
         SQLiteDatabase db2 = myDbHelper2.getReadableDatabase();
-        Cursor c2 = db2.rawQuery("SELECT " + DBContract.SpendingsEntry.COLUMN_AMOUNT + " FROM " + DBContract.SpendingsEntry.TABLE_NAME, null);
+        Cursor c2 = db2.rawQuery("SELECT " + DBContract.SpendingsEntry.COLUMN_AMOUNT + ", " + DBContract.SpendingsEntry.COLUMN_DATE + " FROM " + DBContract.SpendingsEntry.TABLE_NAME, null);
         if(c2.moveToFirst()){
             do{
-                //assing values
                 String item = c2.getString(0);
+                spendDateStr = c2.getString(1);
 
-                //Do something Here with values
-                spendingsNum+= (Double.valueOf(item));
+                String expectedPattern = "MM/dd/yyyy";
+                SimpleDateFormat formatter = new SimpleDateFormat(expectedPattern);
 
-                //assing values
-                //spendingsNum = c2.getString(0);
-                //Do something Here with values
+                try
+                {
+
+                    spendDate = formatter.parse(spendDateStr);
+
+                }
+                catch (ParseException e)
+                {
+
+                    e.printStackTrace();
+                }
+
+                if(spendDate.after(budgDate)){
+                    spendingsNum+= (Double.valueOf(item));
+                }
+
+
+
 
             }while(c2.moveToNext());
         }
@@ -103,7 +147,7 @@ public class Budget extends AppCompatActivity {
         db2.close();
 
         if(spendingsNum==0){
-            currentbudget.setText("No Spendings");
+            currentbudget.setText("$"+amountNum);
         }else {
             Double remaining = (Double.valueOf(amountNum) - spendingsNum);
             DecimalFormat format = new DecimalFormat("##.00");
@@ -122,7 +166,14 @@ public class Budget extends AppCompatActivity {
                         //Double.parseDouble(amount));
                 userDB.createBudget(myBudget);
                 */
+/*
+                String errormsg = "Please fill out all fields";
+                int duration=Toast.LENGTH_LONG;
+                Toast toast=Toast.makeText(getApplicationContext(), amount.getText(), duration);
+                toast.show();
+*/
 
+                amountVal=""+amount.getText();
 
                 if(amountVal.equals("")){
                     String errormsg = "Please fill out all fields";
@@ -163,6 +214,7 @@ public class Budget extends AppCompatActivity {
                     amount.setText("");
                     //inputdate.setText("");
                     //amount.requestFocus();
+
                 }
 
 

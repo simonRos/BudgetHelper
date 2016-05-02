@@ -1,3 +1,9 @@
+/*
+CS 300
+BudgetHelper App
+May 1, 2016
+ */
+
 package com.example.admin.budgethelper;
 
 import android.app.DatePickerDialog;
@@ -42,10 +48,6 @@ public class Spendings extends AppCompatActivity {
         store=(EditText)findViewById(R.id.store);
         dateInput=(EditText)findViewById(R.id.dateInput);
 
-        amountVal=""+amount.getText();
-        storeVal=""+store.getText();
-        dateInputVal=""+dateInput.getText();
-
 
         save=(Button)findViewById(R.id.saveButton);
 
@@ -60,8 +62,13 @@ public class Spendings extends AppCompatActivity {
                 amount.equals("");
 */
 
+                amountVal=""+amount.getText();
+                storeVal=""+store.getText();
+                dateInputVal=""+dateInput.getText();
 
+                //Make sure all fields are filled before submitting it in the database
                 if(!(amountVal.equals("")) && !(storeVal.equals("")) && !(dateInputVal.equals(""))){
+
                     DBHelper myDbHelper = new DBHelper(getApplicationContext());
                     SQLiteDatabase db = myDbHelper.getWritableDatabase();
                     ContentValues values = new ContentValues();
@@ -90,7 +97,10 @@ public class Spendings extends AppCompatActivity {
 
                     amount.setText("");
                     store.setText("");
+                    dateInput.setText("");
                     amount.requestFocus();
+
+                //If not all fields are filled show a Toast asking the user to fill out all fields
                 }else{
                     String errormsg = "Please fill out all fields";
                     int duration=Toast.LENGTH_LONG;
