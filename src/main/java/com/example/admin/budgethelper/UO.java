@@ -3,6 +3,7 @@ CS 300
 BudgetHelper App
 May 1, 2016
 
+UO Input
 Allows user to enter new UOs
  */
 
@@ -25,9 +26,9 @@ import android.widget.Toast;
 
 public class UO extends AppCompatActivity {
 
-    EditText amount,name, dateInput;    //textFields for amount, name, date
+    EditText amount,name, dateInput; //textFields for amount, name, date
     Button uodate, save;    //date and save buttons
-    String amountVal, nameVal, dateInputVal;
+    String amountVal, nameVal, dateInputVal; //String values equivalent to the users input
     int year_x,month_x,day_x;   //date as int
     static final int DIALOG_ID = 0;
 
@@ -59,10 +60,13 @@ public class UO extends AppCompatActivity {
 
                 //check for empty fields
                 if(amountVal.equals("") || nameVal.equals("") || dateInputVal.equals("")){
+
+                    //error toast
                     String errormsg = "Please fill out all fields";
                     int duration=Toast.LENGTH_LONG;
-                    Toast toast=Toast.makeText(getApplicationContext(), errormsg, duration);    //error toast
+                    Toast toast=Toast.makeText(getApplicationContext(), errormsg, duration);
                     toast.show();
+
                 }else {
                     DBHelper myDbHelper = new DBHelper(getApplicationContext());
                     SQLiteDatabase db = myDbHelper.getWritableDatabase();
@@ -77,8 +81,9 @@ public class UO extends AppCompatActivity {
                             null,
                             values);
 
-                    String result;
-                    //was UO successfully added to db?
+                    String result
+                            ;
+                    //Check if the UO successfully added to db
                     if (newRowId != -1) {
                         result = "UO Updated";
                     } else {
@@ -88,6 +93,7 @@ public class UO extends AppCompatActivity {
                     int duration = Toast.LENGTH_LONG;
                     Toast toast = Toast.makeText(getApplicationContext(), result, duration);
                     toast.show();
+
                     //make fields blank
                     amount.setText("");
                     name.setText("");
@@ -112,6 +118,7 @@ public class UO extends AppCompatActivity {
         );
     }
 
+    //Date picker
     @Override
     protected Dialog onCreateDialog(int id){
         if (id == DIALOG_ID)

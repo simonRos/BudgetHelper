@@ -1,36 +1,36 @@
 /*
-CS 300
-BudgetHelper App
-May 1, 2016
+        CS 300
+        BudgetHelper App
+        May 1, 2016
 
-Home/Main page for app.
-Displays remaining budget.
- */
+        Home/Main page for app.
+        Displays remaining budget.
+*/
 
-package com.example.admin.budgethelper;
-//Aimports
-import android.content.ContentValues;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.database.Cursor;
-//Jimports
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
+        package com.example.admin.budgethelper;
+//Android imports
+        import android.content.ContentValues;
+        import android.content.Intent;
+        import android.database.sqlite.SQLiteDatabase;
+        import android.support.v7.app.AppCompatActivity;
+        import android.os.Bundle;
+        import android.view.Menu;
+        import android.view.MenuItem;
+        import android.widget.EditText;
+        import android.widget.TextView;
+        import android.widget.Toast;
+        import android.database.Cursor;
+//Java imports
+        import java.text.ParseException;
+        import java.text.SimpleDateFormat;
+        import java.util.Date;
+        import java.util.concurrent.TimeUnit;
+        import java.text.DateFormat;
+        import java.text.DecimalFormat;
 
 public class HomePage extends AppCompatActivity {
 
-    String amount, date;
+    String amount, date;//Budget values pulled from the database
     Double currentbudget=0.0;
     TextView budgetamount;
     Date curDate = new Date();
@@ -43,7 +43,7 @@ public class HomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-        budgetamount=(TextView)findViewById(R.id.budgetamount); //Display remaining budget
+        budgetamount=(TextView)findViewById(R.id.budgetamount);
 
 
         //Select current budget from the database to determine if the weekly budget should be reset
@@ -126,9 +126,10 @@ public class HomePage extends AppCompatActivity {
         Cursor c2 = db2.rawQuery("SELECT " + DBContract.SpendingsEntry.COLUMN_AMOUNT + ", " +DBContract.SpendingsEntry.COLUMN_DATE+ " FROM " + DBContract.SpendingsEntry.TABLE_NAME, null);
         if(c2.moveToFirst()){
             do{
-                String item = c2.getString(0);
-                String item2 = c2.getString(1);
+                String item = c2.getString(0);//Spending amount
+                String item2 = c2.getString(1);//Spending Date
 
+                //Format the Date for the current spending selected
                 String expectedPattern = "MM/dd/yyyy";
                 SimpleDateFormat formatter = new SimpleDateFormat(expectedPattern);
 
@@ -147,13 +148,14 @@ public class HomePage extends AppCompatActivity {
                 //if the spendDate is after the budget start date then subtract it from the total budget
                 if(spendDate.after(budgetDate)){
                     currentbudget+= (Double.valueOf(item));
-                }
+                }//if the spendDate is before the budget don't subtract it because it is not part of this weeks budget
 
             }while(c2.moveToNext());
         }
         c2.close();
         db2.close();
 
+        //if there is no current budget in the db output "No Budget"
         if(date.equals("")){
             budgetamount.setText("No Budget");
         }else {
@@ -161,7 +163,6 @@ public class HomePage extends AppCompatActivity {
             DecimalFormat format = new DecimalFormat("##.00");
 
             budgetamount.setText("$" + format.format(remaining));
-            //budgetamount.setText(amount);
         }
 
 

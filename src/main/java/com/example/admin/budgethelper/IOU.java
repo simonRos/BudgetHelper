@@ -3,10 +3,12 @@ CS 300
 BudgetHelper App
 May 1, 2016
 
-IOU page.
-Allows users to create IOUs.
+IOU page
+Allows users to input a new IOU
  */
+
 package com.example.admin.budgethelper;
+
 //imports
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -27,9 +29,9 @@ public class IOU extends AppCompatActivity {
 
     Button save,ioudate;    //date and save buttons
     EditText amount,name, dateInput;    //edit fields for amount, name, and date
-    String amountVal, nameVal, dateInputVal;
+    String amountVal, nameVal, dateInputVal; //String value equivalent to what the user inputs
     int year_x,month_x,day_x;   //date
-    
+
     static final int DIALOG_ID = 0;
 
     @Override
@@ -37,7 +39,7 @@ public class IOU extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_iou);
 
-        final java.util.Calendar cal = java.util.Calendar.getInstance();    //get java standard cal
+        final java.util.Calendar cal = java.util.Calendar.getInstance(); //get java standard cal
         year_x = cal.get(java.util.Calendar.YEAR); //current year
         month_x = cal.get(java.util.Calendar.MONTH);    //current month
         day_x = cal.get(java.util.Calendar.DAY_OF_MONTH);   //current day
@@ -53,21 +55,26 @@ public class IOU extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {   //on Save click
-            
+
+                //Set string values to what the user inputted
                 amountVal = ""+amount.getText();
                 nameVal = ""+amount.getText();
                 dateInputVal = ""+dateInput.getText();
 
-                if(amountVal.equals("") || nameVal.equals("") || dateInputVal.equals("")){  //ensure fields are full
+                //ensure fields are full
+                if(amountVal.equals("") || nameVal.equals("") || dateInputVal.equals("")){
+
+                    //error toast
                     String errormsg = "Please fill out all fields";
                     int duration=Toast.LENGTH_LONG;
-                    Toast toast=Toast.makeText(getApplicationContext(), errormsg, duration);    //error toast
+                    Toast toast=Toast.makeText(getApplicationContext(), errormsg, duration);
                     toast.show();
-                }else { 
+
+                }else {
                     DBHelper myDbHelper = new DBHelper(getApplicationContext());
                     SQLiteDatabase db = myDbHelper.getWritableDatabase();
                     ContentValues values = new ContentValues();
-                    
+
                     //insert values into db
                     values.put(DBContract.IOUEntry.COLUMN_AMOUNT, amount.getText().toString());
                     values.put(DBContract.IOUEntry.COLUMN_FROM, name.getText().toString());
@@ -79,6 +86,7 @@ public class IOU extends AppCompatActivity {
                             values);
 
                     String result;
+
                     //Check to see if db successfully update with new IOU
                     if (newRowId != -1) {
                         result = "IOU Updated";
@@ -89,7 +97,7 @@ public class IOU extends AppCompatActivity {
                     int duration = Toast.LENGTH_LONG;
                     Toast toast = Toast.makeText(getApplicationContext(), result, duration);
                     toast.show();
-                    
+
                     //reset fields
                     amount.setText("");
                     name.setText("");
@@ -104,17 +112,18 @@ public class IOU extends AppCompatActivity {
         ioudate = (Button)findViewById(R.id.ioudate);
 
         ioudate.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick(View v){
-                        showDialog(DIALOG_ID);
+                                       @Override
+                                       public void onClick(View v){
+                                           showDialog(DIALOG_ID);
 
 
 
-                    }
-                }
+                                       }
+                                   }
         );
     }
 
+    //datePicker
     @Override
     protected Dialog onCreateDialog(int id){
         if (id == DIALOG_ID)
@@ -122,7 +131,7 @@ public class IOU extends AppCompatActivity {
         return null;
     }
 
-    private DatePickerDialog.OnDateSetListener dpickerListner   //datePicker
+    private DatePickerDialog.OnDateSetListener dpickerListner
             = new DatePickerDialog.OnDateSetListener(){
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){

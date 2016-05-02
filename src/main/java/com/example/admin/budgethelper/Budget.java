@@ -3,11 +3,14 @@ CS 300
 BudgetHelper App
 May 1, 2016
 
-Calculates Budget according to spendings.
-Also handles updated budgets.
+Update Budget
+Displays total budget and remaining budget
+Also gives the option to input a new budget
+If the user inputs a new budget it is used immediately
  */
 
 package com.example.admin.budgethelper;
+
 //Aimports
 import android.app.DatePickerDialog;
 import android.app.Dialog;

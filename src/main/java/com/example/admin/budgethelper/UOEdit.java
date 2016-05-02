@@ -3,6 +3,7 @@ CS 300
 BudgetHelper App
 May 1, 2016
 
+UOEdit
 Allows user to view existing UOs.
 Allows user to delete UOs
  */

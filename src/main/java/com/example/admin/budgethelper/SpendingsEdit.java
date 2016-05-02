@@ -2,13 +2,10 @@
 CS 300
 BudgetHelper App
 May 1, 2016
-
-Allows the user to see a list of spendings.
-Allows user to delete spendings.
  */
 
 package com.example.admin.budgethelper;
-//Aimports
+
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -27,12 +24,12 @@ import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import android.widget.Toast;
 import android.database.Cursor;
-//Jimports
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.text.DateFormat;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -54,7 +51,8 @@ public class SpendingsEdit extends AppCompatActivity {
         SQLiteDatabase db = myDbHelper.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT " + DBContract.BudgetEntry.COLUMN_DATE + " FROM " + DBContract.BudgetEntry.TABLE_NAME, null);
         if(c.moveToLast()){
-            //assign values
+            //do{
+            //assing values
             dateStr = c.getString(0);
             //Do something Here with values
 
@@ -95,6 +93,7 @@ public class SpendingsEdit extends AppCompatActivity {
                 spendDateStr = c2.getString(1);
                 store = c2.getString(2);
                 id = c2.getInt(3);
+                //Do something Here with values
 
                 String expectedPattern = "MM/dd/yyyy";
                 SimpleDateFormat formatter = new SimpleDateFormat(expectedPattern);
@@ -182,6 +181,9 @@ public class SpendingsEdit extends AppCompatActivity {
         }
         c2.close();
         db2.close();
+
+        //spendingsList.setText(item);
+
     }
 
     @Override
@@ -191,7 +193,7 @@ public class SpendingsEdit extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){    //menu
+    public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
 
         switch (id){

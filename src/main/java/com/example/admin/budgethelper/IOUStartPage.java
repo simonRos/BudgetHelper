@@ -3,12 +3,17 @@ CS 300
 BudgetHelper App
 May 1, 2016
 
-Link portal.
-Allows user to view their UOs or IOUs.
+This is the Page you come to when you select "Add IOU/UO" in the main menu
+There are two buttons that the user can select to direct them to either
+add an IOU or UO
+
+IOU - Friend borrowed money from the user
+UO - The user borrowed money from a friend
  */
 
 package com.example.admin.budgethelper;
-//imports
+
+//Imports
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -21,20 +26,20 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 public class IOUStartPage extends AppCompatActivity {
-    Button iou; //iou button
-    Button uo;  //uo button
+    Button iou;
+    Button uo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ioustartpage);
 
-        iou=(Button)findViewById(R.id.iouButton);   //iou button
-        uo=(Button)findViewById(R.id.uoButton); //uo button
+        iou=(Button)findViewById(R.id.iouButton);
+        uo=(Button)findViewById(R.id.uoButton);
 
         iou.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {   //take user to IOUEdit
+            public void onClick(View v) { //take user to IOU Input page
                 Intent intent = new Intent(getApplicationContext(), IOU.class);
                 startActivity(intent);
             }
@@ -42,7 +47,7 @@ public class IOUStartPage extends AppCompatActivity {
 
         uo.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {   //take user to UOEdit
+            public void onClick(View v) { //take user to UO Input page
                 Intent intent = new Intent(getApplicationContext(), UO.class);
                 startActivity(intent);
             }
@@ -56,7 +61,7 @@ public class IOUStartPage extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){    //menu
+    public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
 
         switch (id){

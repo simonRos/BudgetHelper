@@ -2,7 +2,6 @@
 CS 300
 BudgetHelper App
 May 1, 2016
-
 Calendar class and activity.
  */
 

@@ -37,14 +37,13 @@ public class IOUEdit extends AppCompatActivity {
 
     String item, item1, item2;
     int item3;
-    Date date, curDate;
+    //Date date, curDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_iouedit);
 
-        /* Find Tablelayout defined in main.xml */
         final TableLayout tableLayout = (TableLayout)findViewById(R.id.tableLayout1);
 
         DBHelper myDbHelper = new DBHelper(getApplicationContext());
@@ -52,34 +51,33 @@ public class IOUEdit extends AppCompatActivity {
         Cursor c = db.rawQuery("SELECT " + DBContract.IOUEntry.COLUMN_AMOUNT + ", " + DBContract.IOUEntry.COLUMN_DATE + ", " + DBContract.IOUEntry.COLUMN_FROM + ", " + DBContract.IOUEntry._ID + " FROM " + DBContract.IOUEntry.TABLE_NAME, null);
         if(c.moveToFirst()){
             do{
-                //assing values
-                item = c.getString(0);
-                item1 = c.getString(1);
-                item2 = c.getString(2);
-                item3 = c.getInt(3);
+                item = c.getString(0);//amount
+                item1 = c.getString(1);//date
+                item2 = c.getString(2);//friends name
+                item3 = c.getInt(3);//ID
 
                 // Creation row
                 final TableRow tableRow = new TableRow(this);
                 tableRow.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
 
-                // Creation textView
+                // Creation empty textView
                 final TextView blank = new TextView(this);
                 blank.setText(" ");
                 blank.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 
-                // Creation textView
+                // Creation textView for the Date of the IOU
                 final TextView text1 = new TextView(this);
-                text1.setText(item1);//item1
+                text1.setText(item1);//date
                 text1.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 
-                // Creation textView
+                // Creation textView for the Amount of the IOU
                 final TextView text2 = new TextView(this);
-                text2.setText("$" + item);
+                text2.setText("$" + item);//amount
                 text2.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 
-                // Creation textView
+                // Creation textView for the name of the friend that borrowed money
                 final TextView text3 = new TextView(this);
-                text3.setText(item2);//item2
+                text3.setText(item2);//Friend's name
                 text3.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 
                 // Delete button

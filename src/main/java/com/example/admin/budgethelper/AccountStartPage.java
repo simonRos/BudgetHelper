@@ -3,8 +3,8 @@ CS 300
 BudgetHelper App
 May 1, 2016
 
-Account Setting page.
-Link portal for user to view their data on the app.
+Account Start page.
+Includes three buttons the user can select to see their current spendings, IOUs, and UOs
  */
 
 package com.example.admin.budgethelper;
@@ -58,7 +58,7 @@ public class AccountStartPage extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){ 
+    public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
