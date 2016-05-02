@@ -12,7 +12,7 @@
         android:orderInCategory="100"/>
 
     <item
-        android:id="@+id/iou"
+        android:id="@+id/iouStartPage"
         android:title="@string/iou"
         android:orderInCategory="100"/>
     <item
@@ -28,11 +28,6 @@
     <item
         android:id="@+id/account"
         android:title="@string/account"
-        android:orderInCategory="100"/>
-
-    <item
-        android:id="@+id/logout"
-        android:title="@string/logout"
         android:orderInCategory="100"/>
 
 </menu>
