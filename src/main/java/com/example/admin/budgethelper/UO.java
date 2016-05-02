@@ -2,10 +2,12 @@
 CS 300
 BudgetHelper App
 May 1, 2016
+
+Allows user to enter new UOs
  */
 
 package com.example.admin.budgethelper;
-
+//imports
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
@@ -23,11 +25,10 @@ import android.widget.Toast;
 
 public class UO extends AppCompatActivity {
 
-    EditText amount,name, dateInput;
-    Button uodate, save;
+    EditText amount,name, dateInput;    //textFields for amount, name, date
+    Button uodate, save;    //date and save buttons
     String amountVal, nameVal, dateInputVal;
-
-    int year_x,month_x,day_x;
+    int year_x,month_x,day_x;   //date as int
     static final int DIALOG_ID = 0;
 
     @Override
@@ -35,6 +36,7 @@ public class UO extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_uo);
 
+        //get java calendar and set with current year, month, day
         final java.util.Calendar cal = java.util.Calendar.getInstance();
         year_x = cal.get(java.util.Calendar.YEAR);
         month_x = cal.get(java.util.Calendar.MONTH);
@@ -42,39 +44,30 @@ public class UO extends AppCompatActivity {
 
         showDialogOnButtonClick();
 
-        amount=(EditText)findViewById(R.id.amount);
-        name=(EditText)findViewById(R.id.name);
-        dateInput=(EditText)findViewById(R.id.dateInput);
+        amount=(EditText)findViewById(R.id.amount); //amount field
+        name=(EditText)findViewById(R.id.name); //name field
+        dateInput=(EditText)findViewById(R.id.dateInput);   //date field
 
-        save=(Button)findViewById(R.id.saveButton);
+        save=(Button)findViewById(R.id.saveButton); //save button
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                /*
-                bhDatabase myDB = new bhDatabase(getApplicationContext());
-                SQLiteDatabase userDB = myDB.getWritableDatabase();
-                BudgetDB myBudget = new BudgetDB("example", 100);
-                        //Double.parseDouble(amount));
-                userDB.createBudget(myBudget);
-                */
-
-
                 amountVal = ""+amount.getText();
                 nameVal = ""+name.getText();
                 dateInputVal = ""+dateInput.getText();
 
+                //check for empty fields
                 if(amountVal.equals("") || nameVal.equals("") || dateInputVal.equals("")){
                     String errormsg = "Please fill out all fields";
                     int duration=Toast.LENGTH_LONG;
-                    Toast toast=Toast.makeText(getApplicationContext(), errormsg, duration);
+                    Toast toast=Toast.makeText(getApplicationContext(), errormsg, duration);    //error toast
                     toast.show();
                 }else {
                     DBHelper myDbHelper = new DBHelper(getApplicationContext());
                     SQLiteDatabase db = myDbHelper.getWritableDatabase();
                     ContentValues values = new ContentValues();
-
+                    //insert UO into db
                     values.put(DBContract.UOEntry.COLUMN_AMOUNT, amount.getText().toString());
                     values.put(DBContract.UOEntry.COLUMN_TO, name.getText().toString());
                     values.put(DBContract.UOEntry.COLUMN_DATE, dateInput.getText().toString());
@@ -85,18 +78,17 @@ public class UO extends AppCompatActivity {
                             values);
 
                     String result;
-
+                    //was UO successfully added to db?
                     if (newRowId != -1) {
                         result = "UO Updated";
                     } else {
                         result = "Error creating UO";
                     }
 
-
                     int duration = Toast.LENGTH_LONG;
                     Toast toast = Toast.makeText(getApplicationContext(), result, duration);
                     toast.show();
-
+                    //make fields blank
                     amount.setText("");
                     name.setText("");
                     dateInput.setText("");
@@ -134,8 +126,6 @@ public class UO extends AppCompatActivity {
             year_x = year;
             month_x = monthOfYear + 1;
             day_x = dayOfMonth;
-            //Toast.makeText(UO.this, month_x + "/" + day_x + "/" + year_x, Toast.LENGTH_SHORT).show();
-            //uodate.setText(month_x + "/" + day_x + "/" + year_x);
             dateInput.setText(month_x+"/"+day_x+"/"+year_x);
 
         }
@@ -148,7 +138,7 @@ public class UO extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item){    //menu
         int id = item.getItemId();
 
         switch (id){
