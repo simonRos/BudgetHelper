@@ -2,10 +2,13 @@
 CS 300
 BudgetHelper App
 May 1, 2016
+
+Home/Main page for app.
+Displays remaining budget.
  */
 
 package com.example.admin.budgethelper;
-
+//Aimports
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,19 +20,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.database.Cursor;
+//Jimports
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.text.DateFormat;
-
 import java.text.DecimalFormat;
 
-
 public class HomePage extends AppCompatActivity {
-
-    //SQLiteDatabase db = bhDatabase.getWritableDatabase();
-    //bhDatabase userDB= new bhDatabase(getApplicationContext());
 
     String amount, date;
     Double currentbudget=0.0;
@@ -44,7 +43,7 @@ public class HomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-        budgetamount=(TextView)findViewById(R.id.budgetamount);
+        budgetamount=(TextView)findViewById(R.id.budgetamount); //Display remaining budget
 
 
         //Select current budget from the database to determine if the weekly budget should be reset
@@ -176,7 +175,7 @@ public class HomePage extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item){    //Menu
         int id = item.getItemId();
 
         switch (id){
