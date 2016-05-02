@@ -2,10 +2,12 @@
 CS 300
 BudgetHelper App
 May 1, 2016
+
+Calendar class and activity.
  */
 
 package com.example.admin.budgethelper;
-
+//imports
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,15 +20,15 @@ public class Calendar extends AppCompatActivity {
     CalendarView calendar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {    //Setup Calendar
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
 
         calendar = (CalendarView) findViewById(R.id.calendar);
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-                Toast.makeText(getApplicationContext(), month + "/" + dayOfMonth + "/" + year, Toast.LENGTH_LONG).show();
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {   //when you click a day
+                Toast.makeText(getApplicationContext(), month + "/" + dayOfMonth + "/" + year, Toast.LENGTH_LONG).show(); //date Toast
             }
         });
     }
@@ -38,7 +40,7 @@ public class Calendar extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item){    //menu
         int id = item.getItemId();
 
         switch (id){
