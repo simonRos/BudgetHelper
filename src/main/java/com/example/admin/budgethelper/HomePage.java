@@ -156,7 +156,7 @@ public class HomePage extends AppCompatActivity {
         db2.close();
 
         //if there is no current budget in the db output "No Budget"
-        if(date.equals("")){
+        if(date == null){
             budgetamount.setText("No Budget");
         }else {
             Double remaining = (Double.valueOf(amount) - currentbudget);

@@ -90,7 +90,7 @@ public class Budget extends AppCompatActivity {
         c.close();
         db.close();
 
-        if(amountNum.equals("")){   //Sanitizing input. This catches blank input.
+        if(amountNum == null){   //Sanitizing input. This catches blank input.
             budgetamount.setText("No Budget");
         }else{
             budgetamount.setText("$"+amountNum);
@@ -133,7 +133,11 @@ public class Budget extends AppCompatActivity {
         db2.close();
 
         if(spendingsNum==0){
-            currentbudget.setText("$"+amountNum);
+            if(amountNum == null){
+                currentbudget.setText("No Spendings");
+            }else {
+                currentbudget.setText("$" + amountNum);
+            }
         }else {
             Double remaining = (Double.valueOf(amountNum) - spendingsNum);
             DecimalFormat format = new DecimalFormat("##.00");
